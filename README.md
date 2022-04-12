@@ -18,19 +18,19 @@ $ cd mydocs_sqlite
 $ docker-compose up -d
 ```
 
-Brower to:
+**Access MyDocs**  
 http://server-ip:8000  
 Login: admin  
 Password: admin
 
-Access Django Admin site:
-http://server-ip:8000/admin
+**Access Django Admin**  
+http://server-ip:8000/admin  
 Login: admin  
 Password: admin
 
 Users with Django Superuser permission, like admin, can access the Django Admin site, add new users, manage databases from MyDocs Settings and assign users to databases.
 
-To stop MyDocs
+**Stop MyDocs**
 ```bash
 $ docker-compose stop
 ```
