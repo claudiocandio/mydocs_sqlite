@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+
+<h1 class="text-center">Settings</h1>
+
+<div class="mb-1"><label class="form-label">User Name</label>
+<input type="text" value="{{user}}" readonly class="form-control"></div>
+
+<form method="POST" style="display: inline;">
+
+    {% csrf_token %}
+    {% bootstrap_form form %}
+
+    <button type="submit" class="btn btn-secondary">Save</button>
+</form>
+<a href="{% url 'documents:settings_update' user.id %}"><button class="btn btn-secondary">Reload</button></a>
+
+
+{% endblock content %}

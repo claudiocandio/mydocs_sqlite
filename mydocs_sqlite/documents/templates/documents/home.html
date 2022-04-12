@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">MyDocs</h1>
+
+<div class="container">
+    <div class="text-center p-2">
+        <a href="{% url 'documents:document_create' %}"><button class="btn btn-secondary col-7 col-md-2">Create Document</button></a>
+        <br><br>
+        <a href="{% url 'documents:document_list' %}"><button class="btn btn-secondary col-7 col-md-2">List Documents</button></a>
+        <br><br>
+        <a href="{% url 'documents:owner_create' %}"><button class="btn btn-secondary col-7 col-md-2">Create Owner</button></a>
+        <br><br>
+        <a href="{% url 'documents:owner_list' %}"><button class="btn btn-secondary col-7 col-md-2">List Owners</button></a>
+        <br><br>
+        <a href="{% url 'documents:category_create' %}"><button class="btn btn-secondary col-7 col-md-2">Create Category</button></a>
+        <br><br>
+        <a href="{% url 'documents:category_list' %}"><button class="btn btn-secondary col-7 col-md-2">List Categories</button></a>
+    </div>
+</div>
+
+{% endblock content %}

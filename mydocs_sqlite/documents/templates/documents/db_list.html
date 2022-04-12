@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="text-center">Database List</h1>
+
+<form action="{# % url 'documents:db_list' % #}" method="get" style="display: inline;">
+  <div class="mb-1">
+    <label class="form-label">Database Name</label>
+    <input name="search_name" value="{{search_name}}" type="text" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<a href="{% url 'documents:db_list' %}"><button class="btn btn-primary">Clear</button></a>
+<a href="{% url 'documents:db_create' %}"><button class="btn btn-primary">Create Database</button></a>
+
+<br>
+<br>
+{% include "pagination.html" %}
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Databases</th>
+      <th scope="col">Users Assigned</th>
+      <th style="width:5%" scope="col">Actions</th>
+      <th style="width:5%" scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+
+{% for db in object_list %}
+    <tr>
+      <td>{{db.name}}</td>
+      <td>{{db.users}}</td>
+      <td><a href="{% url 'documents:db_update' db.id %}"><button class="btn btn-primary">View</button></a></td>
+      <td><a href="{% url 'documents:db_delete' db.id %}"><button class="btn btn-secondary">Delete</button></a></td>
+    </tr>
+{% endfor %}    
+
+  </tbody>
+</table>
+
+{% include "pagination.html" %}
+
+{% endblock content %}

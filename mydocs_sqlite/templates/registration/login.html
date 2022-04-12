@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+    <div class="d-flex justify-content-center">
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+                <h1>Login</h1>
+                <div class="col">
+                    <label class="col-form-label">{{ form.username.label_tag }}</label>
+                </div>
+                <div class="col">{{ form.username }}</div>
+
+                <div class="col">
+                    <label class="col-form-label">{{ form.password.label_tag }}</label>
+                </div>
+                <div class="col">{{ form.password }}</div>
+                
+                <br>
+                <div class="col">
+                    <button type="submit" value="login" class="btn btn-primary">Login</button>
+                    <input type="hidden" name="next" value="{{ next }}">
+                </div>
+        </form>
+    </div>
+
+<div class="d-flex justify-content-center">
+    {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+</div>
+<div class="d-flex justify-content-center">
+    <a href="{% url 'password_reset' %}">Reset password</a>
+</div>
+
+
+
+{% endblock %}

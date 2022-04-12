@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="text-center">Document Delete</h1>
+<br>
+
+<p>Are you sure you want to delete this Document?</p>
+<b>{{ document }} | {{ document.owners }} | {{ document.categories }}</b>
+<br><br>
+
+<form method="POST" style="display: inline;">
+    
+    {% csrf_token %}
+
+<input type="submit" value="Confirm Delete" class="btn btn-danger">
+</form>
+<a href="{% url 'documents:document_update' document.id %}"><button class="btn btn-secondary">Cancel</button></a>
+
+{% endblock content %}

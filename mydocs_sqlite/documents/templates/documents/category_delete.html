@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="text-center">Category Delete</h1>
+<br>
+<h3>Documents list with this Category</h3>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Document Name</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+
+{% for document in category_documents %}
+    <tr>
+      <td>{{document.document_name}}</td>
+      <td>{{document.date}}</td>
+    </tr>
+{% endfor %} 
+  </tbody>
+</table>
+
+<br>
+<p>Are you sure you want to delete this Category?</p>
+<b>{{category}}</b>
+<br><br>
+
+<form method="POST" style="display: inline;">
+    
+    {% csrf_token %}
+
+<input type="submit" value="Confirm Delete" class="btn btn-danger">
+</form>
+<a href="{% url 'documents:category_update' category.id %}"><button class="btn btn-secondary">Cancel</button></a>
+
+{% endblock content %}

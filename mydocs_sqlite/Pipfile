@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+mysqlclient = "*"
+django-widget-tweaks = "*"
+mysql-connector = "*"
+django-appconf = "*"
+django-bootstrap-datepicker-plus = "*"
+django-bootstrap-v5 = "*"
+python-dateutil = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"
