@@ -2,7 +2,7 @@ from django.db import models
 from datetime import date
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models.functions import Lower
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import User
 
 class Owner(models.Model):
     db_id = models.IntegerField(default=0, editable=False, db_index=True)
