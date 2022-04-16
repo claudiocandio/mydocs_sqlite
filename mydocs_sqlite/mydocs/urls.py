@@ -32,6 +32,3 @@ urlpatterns = [
 ]
 
 handler404 = 'mydocs.views.my_custom_page_not_found_view'
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

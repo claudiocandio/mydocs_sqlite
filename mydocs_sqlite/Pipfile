@@ -12,6 +12,7 @@ django-appconf = "*"
 django-bootstrap-datepicker-plus = "*"
 django-bootstrap-v5 = "*"
 python-dateutil = "*"
+whitenoise = "*"
 
 [dev-packages]
 
