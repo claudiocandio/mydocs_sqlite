@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'mydocs.middleware.SessionIdleTimeout',    
 ]
 
 ROOT_URLCONF = 'mydocs.urls'
@@ -72,8 +73,6 @@ TEMPLATES = [
         },
     },
 ]
-
-#CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 WSGI_APPLICATION = 'mydocs.wsgi.application'
 
@@ -146,8 +145,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "email@example.com"
 
 # Logout after a period of inactivity
-INACTIVE_TIME = 30 * 60 # 15 * 60 = 15 minutes
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+INACTIVE_TIME = 30 * 60 # 30 * 60 = 30 minutes
 SESSION_EXPIRE_AT_BROWSER_CLOSE= True
-SESSION_COOKIE_AGE = INACTIVE_TIME   # change expired session
-SESSION_IDLE_TIMEOUT = INACTIVE_TIME  # logout
+#SESSION_COOKIE_AGE = INACTIVE_TIME   # change expired session
+SESSION_IDLE_TIMEOUT = INACTIVE_TIME  # idle logout, used in middleware

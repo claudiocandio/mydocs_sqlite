@@ -3,8 +3,8 @@ from django.contrib import admin
 from documents.models import Document, Owner, Category, File, MyDocsSettings
 
 
-class FileInline(admin.TabularInline):
-    model = File
+#class FileInline(admin.TabularInline):
+#    model = File
 
 class DocumentAdmin(admin.ModelAdmin):
     list_display = ('document_name', 'owners', 'categories', 'date')

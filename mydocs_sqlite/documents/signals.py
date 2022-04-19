@@ -12,7 +12,10 @@ def user_logged_in_signal(sender, request, user, **kwargs):
  
 @receiver(user_logged_out)
 def user_logged_out_signal(sender, request, user, **kwargs):
-    print(f"mydocs {util.now()}: User logout {user.username} from IP {request.META.get('REMOTE_ADDR')}")
+    if(user):
+        print(f"mydocs {util.now()}: User logout {user.username} from IP {request.META.get('REMOTE_ADDR')}")
+    else:
+        print(f"mydocs {util.now()}: User logout from IP {request.META.get('REMOTE_ADDR')}")
     util.db_removed(user.id)
 
 @receiver(user_login_failed)
