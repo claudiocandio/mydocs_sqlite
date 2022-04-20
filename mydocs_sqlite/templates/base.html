@@ -93,11 +93,11 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             {% if user.is_superuser %}
-              <li><a class="dropdown-item" target="_blank" href="{% url 'admin:index' %}">Admin</a></li>
-              <li><a class="dropdown-item" href="{% url 'documents:db_list' %}">Manage Databases</a></li>
+              <li><a class="dropdown-item" target="_blank" href="{% url 'admin:index' %}">Admin Site</a></li>
+              <li><a class="dropdown-item" href="{% url 'documents:db_list' %}">Databases</a></li>
             {% endif %}
-            <li><a class="dropdown-item" href="{% url 'documents:settings_update' user.id %}">My Settings</a></li>
-            <li><a class="dropdown-item" href="{% url 'profile_edit' %}">My Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'documents:settings_update' user.id %}">Settings</a></li>
+            <li><a class="dropdown-item" href="{% url 'profile_edit' %}">Profile</a></li>
             <li><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li>
             <li><a class="dropdown-item" href="{% url 'logout' %}">Logout: {{ user.username }}</a></li>
           </ul>

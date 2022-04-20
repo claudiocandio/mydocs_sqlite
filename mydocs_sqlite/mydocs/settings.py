@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'mydocs.middleware.SessionIdleTimeout',    
+    'mydocs.middleware.MyDocsMW',    
 ]
 
 ROOT_URLCONF = 'mydocs.urls'

@@ -84,5 +84,11 @@ def get_database_dbs(self):
     dbs = Db.objects.filter(user=self.request.user.id).exclude(name=db).all()
     return db, dbs
 
-
+def get_remote_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
