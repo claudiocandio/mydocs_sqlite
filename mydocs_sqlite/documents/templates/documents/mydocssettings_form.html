@@ -13,9 +13,9 @@
     {% csrf_token %}
     {% bootstrap_form form %}
 
-    <button type="submit" class="btn btn-secondary">Save</button>
+    <input id="save" class="not-visible btn btn-secondary" type="submit" value="Save">
 </form>
-<a href="{% url 'documents:settings_update' user.id %}"><button class="btn btn-secondary">Reload</button></a>
-
-
+<a href="{% url 'documents:settings_update' user.id %}"><button id="reload" class="not-visible btn btn-secondary">Cancel</button></a>
+<data id="delete"></data>
+<data id="onlysave"></data>
 {% endblock content %}

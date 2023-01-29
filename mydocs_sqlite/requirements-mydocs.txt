@@ -1,0 +1,16 @@
+asgiref==3.6.0
+beautifulsoup4==4.11.1
+Django==4.1.4
+django-appconf==1.0.5
+django-bootstrap-datepicker-plus==5.0.2
+django-bootstrap-v5==1.0.11
+django-widget-tweaks==1.4.12
+mysql-connector==2.2.9
+mysqlclient==2.1.1
+pydantic==1.10.3
+python-dateutil==2.8.2
+six==1.16.0
+soupsieve==2.3.2.post1
+sqlparse==0.4.3
+typing_extensions==4.4.0
+whitenoise==6.2.0

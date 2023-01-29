@@ -14,16 +14,17 @@
     {{form.as_p}}
 
 {% if database %}
-    <input class="btn btn-secondary" type="submit" value="Save">
+  {% if category.id %}
+  <input id="save" class="not-visible btn btn-secondary" type="submit" value="Save">
+  {% else %}
+  <input class="btn btn-secondary" type="submit" value="Save">
+  {% endif %}
 {% endif %}
 
 </form>
 {% if category.id %}
-<a href="{% url 'documents:category_delete' category.id %}"><button class="btn btn-secondary">Delete</button></a>
-<a href="{% url 'documents:category_update' category.id %}"><button class="btn btn-secondary">Reload</button></a>
-<br><br>
-<a href="{% url 'documents:category_create' %}"><button class="btn btn-secondary">Create New Category</button></a>
+<a href="{% url 'documents:category_delete' category.id %}"><button id="delete" class="btn btn-secondary">Delete</button></a>
+<a href="{% url 'documents:category_update' category.id %}"><button id="reload" class="not-visible btn btn-secondary">Cancel</button></a>
 {% endif %}
-<a href="{% url 'documents:category_list' %}"><button class="btn btn-secondary">List Categories</button></a>
-
+<data id="onlysave"></data>
 {% endblock content %}

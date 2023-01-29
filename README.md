@@ -13,8 +13,32 @@ A document saved to MyDocs may include files attachments, it can have one or mor
 ## MyDocs Install
 
 ```bash
-$ git clone https://github.com/claudiocandio/mydocs_sqlite
-$ cd mydocs_sqlite
+$ wget https://github.com/claudiocandio/mydocs_sqlite/raw/main/docker-compose.yml
+$ docker-compose up -d
+```
+
+**Make Database persistent and add Settings file**  
+
+```bash
+$ docker cp mydocs:/mydocs_sqlite/db.sqlite3 .
+$ docker cp mydocs:/mydocs_sqlite/mydocs/settings.py .
+```
+
+Edit docker-compose.yml and uncomment the volumes entries:  
+&emsp;volumes:  
+&emsp;&emsp;- ./settings.py:/mydocs_sqlite/mydocs/settings.py  
+&emsp;&emsp;- ./db.sqlite3:/mydocs_sqlite/db.sqlite3  
+
+Restart mydocs
+
+```bash
+$ docker-compose restart
+```
+
+**Upgrade MyDocs**  
+```bash
+$ docker-compose down
+$ docker-compose pull
 $ docker-compose up -d
 ```
 

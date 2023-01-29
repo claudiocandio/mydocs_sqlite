@@ -1,8 +1,16 @@
 $(document).ready(function() {
     $('#id_owner').select2();
     $('#id_category').select2();
+    $('#id_user').select2();
+    // DatePickerInput
+    //$('#id_date').on('input', ev => onlysave());
 });
-
+window.dbdpEvents_date = {
+    // DatePickerInput
+    // https://getdatepicker.com/4/Events/
+    // https://django-bootstrap-datepicker-plus.readthedocs.io/en/latest/customization.html#customize-single-input
+    "dp.change": e => onlysave(),
+}
 function formatFileSize(bytes,decimalPoint) {
     if(bytes == 0) return '0 Bytes';
     var k = 1000,
@@ -102,4 +110,15 @@ function to_db(db){
         },
     });
 
+}
+
+function onlysave(){
+    // if creating new record it will return, otherwise there are form errors
+    if( ! document.getElementById("save")) return
+
+    document.getElementById('delete').classList.add("not-visible")
+    document.getElementById('onlysave').hidden = true;
+
+    document.getElementById('reload').classList.remove("not-visible")
+    document.getElementById('save').classList.remove("not-visible")
 }

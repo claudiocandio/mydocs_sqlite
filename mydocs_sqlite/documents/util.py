@@ -3,11 +3,14 @@ from django.contrib import messages
 from documents.models import MyDocsSettings,Db
 from datetime import datetime
 
+import logging
+
+logger = logging.getLogger('mydocs')
+
 def print_form_errors(request, formerror_messages):
     for msg in formerror_messages:
         # need to add danger with messages.error, withouth give white message
         messages.error(request, f"{msg}: {formerror_messages[msg]}", "danger")
-        print(msg)
 
 def get_request_FIELD(get_name, get):
     """
@@ -45,8 +48,8 @@ def myset_get_db_id(user_id=None, db_name=None):
     elif(db_name):
         return Db.objects.values_list('id', flat=True).filter(name=db_name).first()
     else:
-        print("Error getting db id")
-        return ""
+        logger.error(f"Error getting db id")
+    return ""
 
 def myset_get_db(user_id=None, db_id=None):
     if(user_id):

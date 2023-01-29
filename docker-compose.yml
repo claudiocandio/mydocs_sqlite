@@ -1,15 +1,14 @@
 version: "3.9"
    
 services:
-  mydocs_sqlite:
-    container_name: mydocs_sqlite
+  mydocs:
+    image: claudiocandio/mydocs:latest
+    container_name: mydocs
     restart: unless-stopped
-    build:
-      context: ./conf
-      dockerfile: ./Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./mydocs_sqlite:/mydocs_sqlite
+    entrypoint: /mydocs_sqlite/mydocs_run.sh
+    #volumes:
+    #  - ./settings.py:/mydocs_sqlite/mydocs/settings.py
+    #  - ./db.sqlite3:/mydocs_sqlite/db.sqlite3
     ports:
       - "8000:8000"
 

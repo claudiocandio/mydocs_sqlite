@@ -5,13 +5,16 @@ from bootstrap_datepicker_plus.widgets import DatePickerInput
 from documents.models import Document, MyDocsSettings,Owner,Category,File,Db
 
 class OwnerModelForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         # add db_id to self, this needs get_form_kwargs rewrite in views.py
         if('db_id' in kwargs):
             self.db_id = kwargs.pop('db_id')
         super(OwnerModelForm, self).__init__(*args, **kwargs)
+
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs['oninput'] = 'onlysave()'
 
     class Meta:
         model = Owner
@@ -31,6 +34,7 @@ class OwnerModelForm(forms.ModelForm):
                 raise forms.ValidationError('Owner with this Name already exists.')
 
 class CategoryModelForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         # add db_id to self, this needs get_form_kwargs rewrite in views.py
         if('db_id' in kwargs):
@@ -38,6 +42,7 @@ class CategoryModelForm(forms.ModelForm):
         super(CategoryModelForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs['oninput'] = 'onlysave()'
 
     class Meta:
         model = Category
@@ -54,10 +59,12 @@ class CategoryModelForm(forms.ModelForm):
                 raise forms.ValidationError('Category with this Name already exists.')
 
 class DbModelForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(DbModelForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs['oninput'] = 'onlysave()'
 
     class Meta:
         model = Db
@@ -78,6 +85,7 @@ class DbModelForm(forms.ModelForm):
                 raise forms.ValidationError('Database with this Name already exists.')
 
 class DocumentCopyMoveForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(DocumentCopyMoveForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
@@ -98,6 +106,7 @@ class DocumentCopyMoveForm(forms.ModelForm):
 
 
 class MyDocsSettingsCopyMoveModelForm(forms.ModelForm):
+
     class Meta:
         model = MyDocsSettings
         fields = (
@@ -117,12 +126,15 @@ class DocumentModelForm(forms.ModelForm):
         self.fields['category'].queryset = Category.objects.filter(db_id=self.db_id)
         self.fields['owner'].queryset = Owner.objects.filter(db_id=self.db_id)
 
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['oninput'] = 'onlysave()'
+
     class Meta:
         model = Document
         fields = "__all__"
         widgets = {
             'note': Textarea(attrs={'cols': 80, 'rows': 5}),
-            'date': DatePickerInput(options={'format': 'YYYY-MM-DD'}),
+            'date': DatePickerInput(options={'format': 'YYYY-MM-DD', "showTodayButton": True,},) # attrs={'oninput': 'onlysave()'},),
             #'owner': forms.widgets.CheckboxSelectMultiple(),
             #'category': forms.widgets.CheckboxSelectMultiple(),
         }
@@ -176,6 +188,15 @@ class FileForm(forms.Form):
 
 class MyDocsSettingsModelForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super(MyDocsSettingsModelForm, self).__init__(*args, **kwargs)
+        self.fields['db'].queryset = Db.objects.filter(user=self.initial['user_id'])
+        self.fields['user_id'].widget.attrs['readonly'] = True
+
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs['oninput'] = 'onlysave()'
+
     class Meta:
         model = MyDocsSettings
         fields = "__all__"
@@ -184,9 +205,3 @@ class MyDocsSettingsModelForm(forms.ModelForm):
             "max_upload_size": "Max Upload Size Bytes",
             "db": "Database"
         }
-
-    def __init__(self, *args, **kwargs):
-        super(MyDocsSettingsModelForm, self).__init__(*args, **kwargs)
-        self.fields['db'].queryset = Db.objects.filter(user=self.initial['user_id'])
-        self.fields['user_id'].widget.attrs['readonly'] = True
-        

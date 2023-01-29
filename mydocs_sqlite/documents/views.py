@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView,CreateView,ListView,UpdateView,DeleteView
 from django.urls import reverse_lazy,reverse
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.http import HttpResponse
@@ -23,6 +23,20 @@ from documents.forms import (
                             OwnerModelForm,CategoryModelForm,DocumentModelForm,DocumentListForm,DocumentCopyMoveForm,
                             FileForm,MyDocsSettingsModelForm,DbModelForm,
                             )
+
+class SuperUserRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and not request.user.is_superuser:
+            messages.error(
+                request,
+                'You do not have the permission required to perform the requested operation.')
+            return redirect(reverse('home'))
+
+        return super(SuperUserRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'documents/home.html'
@@ -239,7 +253,7 @@ class CategoryDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
 ### Start Db ###
 
-class DbCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class DbCreateView(SuperUserRequiredMixin, SuccessMessageMixin, CreateView):
     model = Db
     form_class = DbModelForm
     success_message = "Database successfully created"
@@ -252,7 +266,7 @@ class DbCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         context['database'], context['dbs'] = util.get_database_dbs(self)
         return context
 
-class DbUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class DbUpdateView(SuperUserRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Db
     form_class = DbModelForm
     success_message = "Database successfully updated"
@@ -265,7 +279,7 @@ class DbUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context['database'], context['dbs'] = util.get_database_dbs(self)
         return context
 
-class DbListView(LoginRequiredMixin, ListView):
+class DbListView(SuperUserRequiredMixin, ListView):
     model = Db
 
     def get_queryset(self):
@@ -284,7 +298,7 @@ class DbListView(LoginRequiredMixin, ListView):
         context['search_name'] = util.get_request_FIELD('search_name', self.request.GET.get)
         return context
 
-class DbDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class DbDeleteView(SuperUserRequiredMixin, SuccessMessageMixin, DeleteView):
     """ 
     Here I will just remove the database name
     For security I do not remove documents, owners and categories automatically
@@ -301,13 +315,15 @@ class DbDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
             filter(db_id=self.kwargs['pk']).all()[0:util.myset_get_max_lines(self.request.user.id)]
         return context
 
-    def get_object(self, queryset=None):
-        """ Hook to ensure object db_id is an allowed database for the user. """
-        obj = super(DbDeleteView, self).get_object()
-        dbs = Db.objects.filter(user=self.request.user.id).all()
-        if not obj in dbs:
-            raise Http404
-        return obj
+    # admin/superusers can delete every db
+    #
+    #def get_object(self, queryset=None):
+    #    """ Hook to ensure object db_id is an allowed database for the user. """
+    #    obj = super(DbDeleteView, self).get_object()
+    #    dbs = Db.objects.filter(user=self.request.user.id).all()
+    #    if not obj in dbs:
+    #        raise Http404
+    #    return obj
 
 ### End Db ###
 

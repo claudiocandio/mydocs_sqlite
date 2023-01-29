@@ -13,14 +13,19 @@
     {% csrf_token %}
     {{form.as_p}}
 
-<input class="btn btn-secondary" type="submit" value="Save">
-</form>
 {% if db.id %}
-<a href="{% url 'documents:db_delete' db.id %}"><button class="btn btn-secondary">Delete</button></a>
-<a href="{% url 'documents:db_update' db.id %}"><button class="btn btn-secondary">Reload</button></a>
-<br><br>
-<a href="{% url 'documents:db_create' %}"><button class="btn btn-secondary">Create New Database</button></a>
+<input id="save" class="not-visible btn btn-secondary" type="submit" value="Save">
+{% else %}
+<input class="btn btn-secondary" type="submit" value="Save">
 {% endif %}
-<a href="{% url 'documents:db_list' %}"><button class="btn btn-secondary">List Databases</button></a>
+
+</form>
+
+{% if db.id %}
+<a href="{% url 'documents:db_delete' db.id %}"><button id="delete" class="btn btn-secondary">Delete</button></a>
+<a href="{% url 'documents:db_update' db.id %}"><button id="reload" class="not-visible btn btn-secondary">Cancel</button></a>
+{% endif %}
+
+<data id="onlysave"></data>
 
 {% endblock content %}
